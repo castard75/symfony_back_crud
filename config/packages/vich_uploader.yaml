@@ -1,0 +1,16 @@
+# config/packages/vich_uploader.yaml or app/config/config.yml
+vich_uploader:
+  db_driver: orm
+
+  metadata:
+    type: attribute
+
+  mappings:
+    profiles:
+      uri_prefix: /images/profiles
+      upload_destination: "%kernel.project_dir%/public/images/profiles"
+      namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+    posts:
+      uri_prefix: /images/posts
+      upload_destination: "%kernel.project_dir%/public/images/posts"
+      namer: Vich\UploaderBundle\Naming\SmartUniqueNamer

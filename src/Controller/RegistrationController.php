@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class RegistrationController extends AbstractController
 {
@@ -22,17 +23,20 @@ class RegistrationController extends AbstractController
               $email = $request->request->get('email');
               $username = $request->request->get('username');
               $password = $request->request->get('password');
+              $profilePicture = $request->files->get('profilePicture');
+              
    
             if($email == null || !filter_var($email,FILTER_VALIDATE_EMAIL)){
 
                 throw new \Exception('eRReuR email ');
             }
-            // if($password == null || !filter_var($password,FILTER_VALIDATE_REGEXP),){
 
-            //     throw new \Exception('eRReuR email ');
-            // }
+            if ($profilePicture === null || !$profilePicture instanceof UploadedFile) {
+                throw new \Exception('Invalid profile picture');
+            }
             $user->setEmail($email);
             $user->setUsername($username);
+            $user->setImageFile($profilePicture);
             $hashedPassword = $passwordHasher->hashPassword(
                 $user,
                 $password
